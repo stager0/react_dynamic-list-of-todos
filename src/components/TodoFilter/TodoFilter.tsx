@@ -1,3 +1,6 @@
+import React from 'react';
+import classNames from 'classnames';
+
 export enum Options {
   all = 'all',
   active = 'active',
@@ -12,11 +15,11 @@ type Props = {
 };
 
 export const TodoFilter: React.FC<Props> = ({
-  setQueryFunc,
-  currentQuery,
-  setOptionFunc,
-  currentOption,
-}) => {
+                                              setQueryFunc,
+                                              currentQuery,
+                                              setOptionFunc,
+                                              currentOption,
+                                            }) => {
   const handleDelete = () => {
     setQueryFunc('');
   };
@@ -50,8 +53,10 @@ export const TodoFilter: React.FC<Props> = ({
           <i className="fas fa-magnifying-glass" />
         </span>
         {currentQuery && (
-          <span className="icon is-right" style={{ pointerEvents: 'all' }}>
-            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+          <span
+            className={classNames('icon', 'is-right')}
+            style={{ pointerEvents: 'all' }}
+          >
             <button
               data-cy="clearSearchButton"
               type="button"

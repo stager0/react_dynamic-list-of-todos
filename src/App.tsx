@@ -11,6 +11,7 @@ import { Loader } from './components/Loader';
 import { getTodos, getUser } from './api';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
+import classNames from 'classnames';
 
 export const App: React.FC = () => {
   const [modalIsOpened, setModalIsOpened] = useState(false);
@@ -26,11 +27,12 @@ export const App: React.FC = () => {
       setWaitForModal(true);
       setUser(null);
 
-      const fetchUser = () => {
-        getUser(openedTodo.userId).then(currentUser => setUser(currentUser));
-        setTimeout(() => {
-          setWaitForModal(false);
-        }, 300);
+      const fetchUser = async () => {
+        setWaitForModal(true);
+        const currentUser = await getUser(openedTodo.userId);
+
+        setUser(currentUser);
+        setWaitForModal(false);
       };
 
       fetchUser();
@@ -41,7 +43,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     const fetchTodos = async () => {
-      setWaitForData(true); // сразу показываем Loader
+      setWaitForData(true);
       const todos = await getTodos();
 
       setAllTodos(todos);
@@ -53,12 +55,12 @@ export const App: React.FC = () => {
 
   return (
     <>
-      <div className="section">
-        <div className="container">
-          <div className="box">
-            <h1 className="title">Todos:</h1>
+      <div className={classNames('section')}>
+        <div className={classNames('container')}>
+          <div className={classNames('box')}>
+            <h1 className={classNames('title')}>Todos:</h1>
 
-            <div className="block">
+            <div className={classNames('block')}>
               <TodoFilter
                 setQueryFunc={setQuery}
                 currentQuery={query}
@@ -67,7 +69,7 @@ export const App: React.FC = () => {
               />
             </div>
 
-            <div className="block">
+            <div className={classNames('block')}>
               {waitForData && <Loader />}
               {!waitForData && (
                 <TodoList
